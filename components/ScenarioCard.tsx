@@ -116,6 +116,7 @@ export function ScenarioCard({
           </p>
           <p
             data-testid="net-pay"
+            aria-live="polite"
             className="mt-1 text-xl font-bold text-emerald-700 dark:text-emerald-300"
           >
             {formatCurrency(netPay)}

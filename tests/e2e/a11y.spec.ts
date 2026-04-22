@@ -18,7 +18,6 @@ async function assertA11y(page: Page) {
   );
 
   for (const violation of warnings) {
-    // eslint-disable-next-line no-console
     console.warn(`[a11y-warning] ${violation.id}: ${violation.description}`);
   }
 
@@ -35,6 +34,9 @@ test.describe('a11y checks', () => {
   test('comparison mode has no serious/critical violations', async ({ page, baseURL }) => {
     await setupDeterministicPage(page, baseURL ?? 'http://localhost:3000');
     await page.goto('/');
+    await page.getByTestId('salary-input').click();
+    await page.keyboard.press('Meta+A');
+    await page.keyboard.type('95000');
     await page.getByTestId('compare-cta').click();
     await assertA11y(page);
   });

@@ -12,6 +12,10 @@ test.describe('Responsive layout', () => {
       await page.setViewportSize(device.preset.viewport);
       await setupDeterministicPage(page, baseURL ?? 'http://localhost:3000');
       await page.goto('/');
+      await page.getByTestId('salary-input').click();
+      await page.keyboard.press('Meta+A');
+      await page.keyboard.type('95000');
+      await expect(page.getByTestId('compare-cta')).toBeEnabled();
       await page.getByTestId('compare-cta').click();
 
       await expect(page.getByTestId('tab-s1')).toBeVisible();
@@ -33,6 +37,10 @@ test.describe('Responsive layout', () => {
     await setupDeterministicPage(page, baseURL ?? 'http://localhost:3000');
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/');
+    await page.getByTestId('salary-input').click();
+    await page.keyboard.press('Meta+A');
+    await page.keyboard.type('95000');
+    await expect(page.getByTestId('compare-cta')).toBeEnabled();
     await page.getByTestId('compare-cta').click();
 
     await expect(page.getByTestId('scenario-card-s1')).toBeVisible();
@@ -52,6 +60,10 @@ test.describe('Responsive layout', () => {
     await setupDeterministicPage(page, baseURL ?? 'http://localhost:3000');
     await page.setViewportSize(devices['iPad (gen 7)'].viewport);
     await page.goto('/');
+    await page.getByTestId('salary-input').click();
+    await page.keyboard.press('Meta+A');
+    await page.keyboard.type('95000');
+    await expect(page.getByTestId('compare-cta')).toBeEnabled();
     await page.getByTestId('compare-cta').click();
 
     await expect(page.getByTestId('scenario-card-s1')).toBeVisible();

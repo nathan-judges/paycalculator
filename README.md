@@ -15,6 +15,14 @@ Supports side-by-side scenario comparison and shareable URLs.
 - **Print/PDF friendly** — print stylesheet hides interactive UI and adds a print header
 - **PWA** — installable app with offline caching (service worker via `next-pwa`)
 
+## UX Enhancements
+
+- The primary salary field is now an always-visible, inline input so users can edit immediately without opening an edit panel first.
+- Salary input uses `type="text"`, `inputMode="numeric"`, and `pattern="[0-9]*"` for better mobile keyboard support and predictable formatting behaviour.
+- A first-visit onboarding tooltip points users to the salary input and then dismisses (auto-timeout or first interaction), persisted via localStorage.
+- The compare action is intentionally gated until the user edits salary at least once, reinforcing the primary task flow before branching into comparison.
+- In single-scenario mode, the sticky footer is hidden to avoid duplicate take-home pay displays.
+
 ## Tech stack
 
 | Concern | Tool |

@@ -30,3 +30,11 @@
 3. Compare against ATO fixture boundaries for relevant FY.
 4. If mismatch confirmed, patch config/engine with tests first.
 5. Publish correction note and verify deployed output.
+
+## Onboarding tooltip not dismissing
+
+1. Confirm browser allows localStorage (private mode restrictions can block persistence).
+2. Check if `hasSeenSalaryTooltip` exists in localStorage and equals `"true"`.
+3. Reproduce dismissal paths: first keypress/click on salary input and 5-second auto-dismiss.
+4. If stuck visible, clear localStorage and reload to verify listener lifecycle.
+5. Add console traces in `OnboardingTooltip` for attach/detach handlers when debugging event propagation issues.
