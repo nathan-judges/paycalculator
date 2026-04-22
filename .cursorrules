@@ -1,0 +1,19 @@
+# Project: Australian Salary Comparison Tool
+# Architecture: ATO-Sourced Validation
+
+## Stack (enforce strictly)
+- Next.js 15+ App Router, TypeScript strict mode, Tailwind CSS
+- Zustand for state, Zod for all validation, Vitest for unit tests, Playwright for E2E
+- lz-string for URL compression
+
+## Non-negotiable rules
+1. All tax rates and brackets must live in lib/tax-config/{FY}.ts. Never hardcode a rate elsewhere.
+2. All tax engine functions in lib/engine/ must be pure functions with no side effects.
+3. All Zod schemas must live in lib/types.ts. Never define inline schemas elsewhere.
+4. Never generate expected values for boundary tests. These must be sourced from ATO tables by the developer.
+5. The financialYear field lives on AppStateSchema (global), not ScenarioSchema.
+6. Scenario IDs are 's1' or 's2' only. Never use UUIDs.
+7. URL state is compressed with lz-string and validated with AppStateSchema.safeParse on load.
+8. If a tax config has lastVerifiedAgainstATO: null, its tests must be skipped, not failed.
+9. No component should calculate tax directly. All calculations go through lib/engine/.
+10. Use Australian English in all UI copy and comments.
