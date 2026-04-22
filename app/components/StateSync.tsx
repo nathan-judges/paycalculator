@@ -16,47 +16,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { useComparisonStore } from '@/store/comparisonStore';
 import { compressState, decompressState, readStateParam, STATE_PARAM } from '@/lib/urlState';
 import type { AppState } from '@/lib/types';
-
-// ---------------------------------------------------------------------------
-// Toast component (lightweight, no external dependency)
-// ---------------------------------------------------------------------------
-
-function Toast({ message, onDismiss }: { message: string; onDismiss: () => void }) {
-  useEffect(() => {
-    const timer = setTimeout(onDismiss, 5000);
-    return () => clearTimeout(timer);
-  }, [onDismiss]);
-
-  return (
-    <div
-      role="alert"
-      style={{
-        position: 'fixed',
-        bottom: '1.5rem',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        background: '#1a1a2e',
-        color: '#fff',
-        padding: '0.75rem 1.5rem',
-        borderRadius: '0.5rem',
-        boxShadow: '0 4px 24px rgba(0, 0, 0, 0.3)',
-        zIndex: 9999,
-        fontSize: '0.875rem',
-        maxWidth: '90vw',
-        textAlign: 'center',
-        animation: 'toast-in 0.3s ease-out',
-      }}
-    >
-      {message}
-      <style>{`
-        @keyframes toast-in {
-          from { opacity: 0; transform: translateX(-50%) translateY(1rem); }
-          to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-      `}</style>
-    </div>
-  );
-}
+import { Toast } from '@/components/Toast';
 
 // ---------------------------------------------------------------------------
 // StateSync component

@@ -2,7 +2,8 @@
  * QuickCheckClient — client-side wrapper for the Quick Check / Comparison page.
  *
  * Renders:
- * - Header with branding
+ * - UnverifiedFYBanner (if applicable)
+ * - Header with branding + export/share toolbar
  * - GlobalControls (frequency + FY selectors)
  * - ComparisonGrid (handles 1 or 2 scenarios)
  * - "Compare with another offer" button (only when 1 scenario exists)
@@ -15,24 +16,49 @@ import { useComparisonStore } from '@/store/comparisonStore';
 import { GlobalControls } from '@/components/GlobalControls';
 import { ComparisonGrid } from '@/components/ComparisonGrid';
 import { StickyFooter } from '@/components/StickyFooter';
+import { ExportButton } from '@/components/ExportButton';
+import { ShareButton } from '@/components/ShareButton';
+import { UnverifiedFYBanner } from '@/components/UnverifiedFYBanner';
 
 export function QuickCheckClient() {
   const scenarios = useComparisonStore((s) => s.scenarios);
   const duplicateScenario = useComparisonStore((s) => s.duplicateScenario);
+  const financialYear = useComparisonStore((s) => s.financialYear);
 
   const hasTwoScenarios = scenarios.length >= 2;
+  const printDate = new Date().toLocaleDateString('en-AU', {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+  });
 
   return (
     <div className="flex min-h-screen flex-col bg-zinc-50 font-sans dark:bg-zinc-950">
+      {/* ── Unverified financial year warning ─────────────────────── */}
+      <UnverifiedFYBanner />
+
       {/* ── Header ───────────────────────────────────────────────── */}
-      <header className="border-b border-zinc-200/80 bg-white/80 backdrop-blur-sm dark:border-zinc-800/80 dark:bg-zinc-900/80">
+      <header
+        data-print-date={printDate}
+        data-print-fy={financialYear}
+        className="border-b border-zinc-200/80 bg-white/80 backdrop-blur-sm dark:border-zinc-800/80 dark:bg-zinc-900/80"
+      >
         <div className="mx-auto max-w-5xl px-6 py-4">
-          <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-            Salary Calculator
-          </h1>
-          <p className="mt-0.5 text-sm text-zinc-500 dark:text-zinc-400">
-            Australian take-home pay calculator
-          </p>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+                Salary Calculator
+              </h1>
+              <p className="mt-0.5 text-sm text-zinc-500 dark:text-zinc-400">
+                Australian take-home pay calculator
+              </p>
+            </div>
+            {/* Export / Share toolbar */}
+            <div className="flex shrink-0 items-center gap-2">
+              <ExportButton />
+              <ShareButton />
+            </div>
+          </div>
         </div>
       </header>
 

@@ -8,7 +8,7 @@
 | 2 | Zustand store, localStorage persistence, lz-string URL compression, 2026-27 config | `feature/state-url-persistence` | ✅ Complete — merged to main |
 | 3 | Quick Check single-scenario UI (all 9 components + tests) | `feature/ui-quick-check` | ✅ Complete — merged to main |
 | 4 | Comparison mode — side-by-side ScenarioCards, DeltaBadge, MobileTabSwitcher | `feature/comparison-mode` | ✅ Complete — merged to main |
-| 5 | Export/share, error states, visual polish, StateSync tests | `feature/week-5-polish` | 🔜 Next |
+| 5 | Export/share, error states, visual polish, PWA | `feature/week5-polish` | ✅ Complete — ready for PR |
 | 6 | E2E tests (Playwright), PWA manifest + service worker, CI hardening | `feature/week-6-ci-e2e` | 🔜 Planned |
 
 ---
@@ -16,15 +16,14 @@
 ## Week 5 Scope
 
 ### Must-have
-- [ ] Share/export — "Copy link" button using the existing `buildStateSearch` utility
-- [ ] Error boundary — React error boundary around the calculator, with fallback UI
-- [ ] Input validation UI — surface Zod errors inline (e.g., salary out of range)
-- [ ] Toast for corrupted URL state — already exists in StateSync but needs a test
-- [ ] StateSync.tsx unit test (technical debt from Week 3)
+- [x] Share/export — copy share link and export scenarios as CSV
+- [x] Error boundary — route-level error boundary with “clear data” reset
+- [x] Unverified financial year warning — dismissible + persisted in localStorage
+- [x] Tooltips — accessible, no external library
+- [x] Print stylesheet — hide interactive controls and add print header
 
 ### Nice-to-have (if time allows)
-- [ ] PWA `public/manifest.json` + `<link rel="manifest">` in layout
-- [ ] Print stylesheet or PDF export
+- [x] PWA `public/manifest.json` + manifest metadata + service worker (`next-pwa`)
 
 ---
 

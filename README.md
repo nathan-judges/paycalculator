@@ -8,9 +8,12 @@ Supports side-by-side scenario comparison and shareable URLs.
 - **Accurate ATO rates** — 2025-26 (ATO-verified) and 2026-27 (legislated)
 - **All deductions** — income tax (Stage 3 rates), LITO, Medicare levy + phase-in, MLS (Tier 1–3), HECS-HELP (marginal repayment), super (inclusive or exclusive)
 - **Compare two scenarios** — side-by-side cards with a net-pay delta badge
-- **Shareable URLs** — state compressed with lz-string, validated with Zod on load
+- **Shareable links** — copy a compressed URL state to clipboard (Zod-validated on load)
+- **CSV export** — download your scenarios as a CSV file (with CSV-injection sanitisation)
 - **Persistent** — state saved to localStorage between sessions
 - **Frequency display** — weekly, fortnightly, monthly, or annual
+- **Print/PDF friendly** — print stylesheet hides interactive UI and adds a print header
+- **PWA** — installable app with offline caching (service worker via `next-pwa`)
 
 ## Tech stack
 
@@ -22,6 +25,7 @@ Supports side-by-side scenario comparison and shareable URLs.
 | State | Zustand v5 + persist middleware |
 | Validation | Zod v4 |
 | URL compression | lz-string |
+| PWA | next-pwa |
 | Tests | Vitest + React Testing Library |
 | Fonts | Geist Sans / Geist Mono (local) |
 
@@ -85,3 +89,8 @@ All non-negotiable rules are enforced in `.cursorrules`:
 
 Deployed on [Vercel](https://vercel.com). Push to `main` triggers automatic deployment.
 No environment variables are required for the production build.
+
+### PWA notes
+
+- The manifest is served from `public/manifest.json`.
+- The service worker is generated during production builds by `next-pwa`.
