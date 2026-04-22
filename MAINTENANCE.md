@@ -74,6 +74,25 @@ The `AppStateSchema` includes a `version` field (currently `1`). When the schema
 2. Write a migration function in `lib/storage.ts` that transforms `version: N` → `version: N+1`
 3. Apply migrations sequentially during URL parsing and localStorage loading
 4. Never delete old migration functions — URLs with old versions may still be shared
+5. `migrateAppState()` in `lib/types.ts` is currently a stub and must be implemented before any version increment ships
+
+## Lighthouse release checklist
+
+Before each release:
+
+- Run Lighthouse on home and comparison states (desktop + mobile)
+- Confirm PWA installability and offline start
+- Confirm accessibility score remains stable (no new critical issues)
+- Confirm bundle size regressions are acceptable
+- Record notable regressions in release notes
+
+## Post-launch weekly tasks
+
+- Check ATO monitor workflow and triage any `tax-update-needed` issues
+- Review Sentry error trends for tax/path parsing regressions
+- Review survey response trend from local metrics exports
+- Run dependency audit workflow and triage vulnerabilities
+- Spot-check share links and offline load behaviour
 
 ---
 

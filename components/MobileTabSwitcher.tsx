@@ -38,12 +38,14 @@ export function MobileTabSwitcher({
         return (
           <button
             key={id}
+            data-testid={id === 's1' ? 'tab-s1' : 'tab-s2'}
+            data-touch-target="true"
             type="button"
             role="tab"
             aria-selected={isActive}
             onClick={() => onSwitch(id)}
             className={`
-              flex-1 rounded-lg px-4 py-2 text-sm font-medium
+              flex-1 min-h-[44px] rounded-lg px-4 py-2 text-sm font-medium
               transition-all duration-150
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500
               ${

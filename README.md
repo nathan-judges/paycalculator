@@ -29,7 +29,11 @@ Supports side-by-side scenario comparison and shareable URLs.
 | Tests | Vitest + React Testing Library |
 | Fonts | Geist Sans / Geist Mono (local) |
 
-## Local development
+## Production
+
+Live URL: deployed on Vercel from `main`.
+
+## Development
 
 ```bash
 npm install
@@ -38,7 +42,25 @@ npm test             # run all unit tests
 npm run test:watch   # watch mode
 npm run build        # production build
 npm run test:coverage  # coverage report
+npm run parse-fixtures # refresh ATO fixture metadata/checksums
 ```
+
+## Testing
+
+- Unit: `npm test`
+- E2E (Chromium): `npm run test:e2e`
+- Accessibility (axe): `npm run test:a11y`
+- Full browser matrix + visual snapshots (nightly): `npm run test:e2e:full`
+
+## Browser compatibility matrix
+
+- Desktop: Chrome (Chromium), Firefox, Safari (WebKit)
+- Mobile: iPhone 12 Safari equivalent, Pixel 5 Chrome equivalent, iPad Safari equivalent
+- Known issue: iOS PWA install prompts can vary by browser and may require manual verification on physical devices.
+
+## Dev-only metrics export
+
+Use `?dev=1` in local development to reveal an `Export local metrics` button that downloads local analytics events as JSON.
 
 ## How to Update Tax Rates
 

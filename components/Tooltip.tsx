@@ -17,6 +17,8 @@ interface TooltipProps {
   children: React.ReactElement;
   /** The tooltip text to display. */
   text: string;
+  /** Stable identifier for tests (applied to the trigger wrapper). */
+  triggerTestId?: string;
 }
 
 type TooltipChildProps = {
@@ -24,7 +26,7 @@ type TooltipChildProps = {
   title?: string;
 };
 
-export function Tooltip({ children, text }: TooltipProps) {
+export function Tooltip({ children, text, triggerTestId }: TooltipProps) {
   const [visible, setVisible] = useState(false);
   const tooltipId = useId();
 
@@ -37,6 +39,7 @@ export function Tooltip({ children, text }: TooltipProps) {
 
   return (
     <span
+      data-testid={triggerTestId}
       className="relative inline-flex items-center"
       onMouseEnter={() => setVisible(true)}
       onMouseLeave={() => setVisible(false)}

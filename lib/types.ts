@@ -58,3 +58,14 @@ export const DEFAULT_APP_STATE: AppState = {
     },
   ],
 };
+
+export function migrateAppState(
+  oldState: unknown,
+  fromVersion: number,
+  toVersion: number,
+): AppState {
+  void oldState;
+  throw new Error(
+    `Migration from version ${fromVersion} to ${toVersion} is not implemented.`,
+  );
+}

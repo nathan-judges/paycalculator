@@ -40,7 +40,7 @@ describe('UnverifiedFYBanner', () => {
 
       // The banner starts hidden due to SSR hydration guard; wait for effect
       await waitFor(() => {
-        expect(screen.getByTestId('unverified-fy-banner')).toBeDefined();
+        expect(screen.getByTestId('unverified-banner')).toBeDefined();
       });
     });
 
@@ -61,7 +61,7 @@ describe('UnverifiedFYBanner', () => {
       render(<UnverifiedFYBanner />);
 
       await waitFor(() => {
-        expect(screen.getByTestId('unverified-fy-banner')).toBeDefined();
+        expect(screen.getByTestId('unverified-banner')).toBeDefined();
       });
 
       await user.click(
@@ -69,7 +69,7 @@ describe('UnverifiedFYBanner', () => {
       );
 
       await waitFor(() => {
-        expect(screen.queryByTestId('unverified-fy-banner')).toBeNull();
+      expect(screen.queryByTestId('unverified-banner')).toBeNull();
       });
     });
 
@@ -79,7 +79,7 @@ describe('UnverifiedFYBanner', () => {
       render(<UnverifiedFYBanner />);
 
       await waitFor(() => {
-        expect(screen.getByTestId('unverified-fy-banner')).toBeDefined();
+        expect(screen.getByTestId('unverified-banner')).toBeDefined();
       });
 
       await user.click(
@@ -96,7 +96,7 @@ describe('UnverifiedFYBanner', () => {
 
       // Wait a tick for useEffect to run
       await waitFor(() => {
-        expect(screen.queryByTestId('unverified-fy-banner')).toBeNull();
+      expect(screen.queryByTestId('unverified-banner')).toBeNull();
       });
     });
   });
@@ -108,7 +108,7 @@ describe('UnverifiedFYBanner', () => {
 
       // Give useEffect time to run
       await waitFor(() => {
-        expect(screen.queryByTestId('unverified-fy-banner')).toBeNull();
+        expect(screen.queryByTestId('unverified-banner')).toBeNull();
       });
     });
   });
