@@ -15,6 +15,18 @@ This document covers the ongoing maintenance requirements for keeping tax calcul
 
 ---
 
+## Current Status
+
+| Area | Status | Notes |
+|------|--------|-------|
+| **Tax engine (2025–26)** | ✅ Verified | Backed by ATO fixtures. |
+| **Tax config (2026–27)** | ⚠️ Legislated, not ATO-verified | `lastVerifiedAgainstATO: null` — results indicative until verified. |
+| **State sync (URL + localStorage)** | ✅ Complete | Compressed URL state with validation. |
+| **UI (Quick Check + Comparison)** | ✅ Complete | Single scenario + side-by-side comparison. |
+| **Tests + build** | ✅ Passing | `npm test` and `npm run build` should remain green. |
+
+---
+
 ## Legislated Future Rate Changes
 
 ### 2026-27 (from 1 July 2026)

@@ -1,20 +1,18 @@
 # Australian Salary Comparison Tool
+A Next.js app for calculating and comparing Australian take-home pay (after income tax, Medicare levy, Medicare Levy Surcharge, HECS-HELP repayments, and superannuation) across financial years using an ATO-sourced, fixture-verified tax engine.
 
-Calculate and compare Australian take-home pay after income tax, Medicare levy,
-Medicare Levy Surcharge (MLS), HECS-HELP repayments, and superannuation.
 Supports side-by-side scenario comparison and shareable URLs.
 
 ## Features
 
 - **Accurate ATO rates** — 2025-26 (ATO-verified) and 2026-27 (legislated)
-- **All deductions** — income tax (Stage 3 rates), LITO, Medicare levy + phase-in,
-  MLS (Tier 1–3), HECS-HELP (marginal repayment), super (inclusive or exclusive)
+- **All deductions** — income tax (Stage 3 rates), LITO, Medicare levy + phase-in, MLS (Tier 1–3), HECS-HELP (marginal repayment), super (inclusive or exclusive)
 - **Compare two scenarios** — side-by-side cards with a net-pay delta badge
 - **Shareable URLs** — state compressed with lz-string, validated with Zod on load
 - **Persistent** — state saved to localStorage between sessions
 - **Frequency display** — weekly, fortnightly, monthly, or annual
 
-## Tech Stack
+## Tech stack
 
 | Concern | Tool |
 |---------|------|
@@ -27,7 +25,7 @@ Supports side-by-side scenario comparison and shareable URLs.
 | Tests | Vitest + React Testing Library |
 | Fonts | Geist Sans / Geist Mono (local) |
 
-## Getting Started
+## Local development
 
 ```bash
 npm install

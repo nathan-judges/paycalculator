@@ -17,4 +17,4 @@
 8. If a tax config has lastVerifiedAgainstATO: null, its tests must be skipped, not failed.
 9. No component should calculate tax directly. All calculations go through lib/engine/.
 10. Use Australian English in all UI copy and comments.
-11. Vitest uses globals:true — rely on global expect/describe/it/beforeEach in all test files. In tests/setup.ts, never use require() — Vitest 4 is ESM-only. Use async import() inside an IIFE if conditional imports are needed.
+11. Vitest uses `globals: true` — rely on global `expect`/`describe`/`it`/`beforeEach` in all test files. In `tests/setup.ts`, never use `require()` (Vitest 4 is ESM-only). Use dynamic `import()` inside an async IIFE if conditional imports are needed.

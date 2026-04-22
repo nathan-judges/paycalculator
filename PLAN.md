@@ -7,7 +7,7 @@
 | 1 | Tax engine (2025-26), ATO fixture verification, TDD foundation | `feature/tax-engine-2025-26` | ✅ Complete — merged to main |
 | 2 | Zustand store, localStorage persistence, lz-string URL compression, 2026-27 config | `feature/state-url-persistence` | ✅ Complete — merged to main |
 | 3 | Quick Check single-scenario UI (all 9 components + tests) | `feature/ui-quick-check` | ✅ Complete — merged to main |
-| 4 | Comparison mode — side-by-side ScenarioCards, DeltaBadge, MobileTabSwitcher | `feature/comparison-mode` | ✅ Complete — merge pending |
+| 4 | Comparison mode — side-by-side ScenarioCards, DeltaBadge, MobileTabSwitcher | `feature/comparison-mode` | ✅ Complete — merged to main |
 | 5 | Export/share, error states, visual polish, StateSync tests | `feature/week-5-polish` | 🔜 Next |
 | 6 | E2E tests (Playwright), PWA manifest + service worker, CI hardening | `feature/week-6-ci-e2e` | 🔜 Planned |
 
