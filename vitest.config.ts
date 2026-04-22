@@ -4,12 +4,13 @@ import path from 'path';
 export default defineConfig({
   test: {
     globals: true,
+    // Default environment for .ts files (tax engine, store, URL utils).
+    // Component test files (.test.tsx) override this per-file with the
+    // `@vitest-environment jsdom` docblock comment, which is the
+    // Vitest 4 idiomatic way to mix environments.
     environment: 'node',
     include: ['**/*.test.ts', '**/*.test.tsx'],
     exclude: ['node_modules', '.next'],
-    environmentMatchGlobs: [
-      ['**/*.test.tsx', 'jsdom'],
-    ],
     setupFiles: ['./tests/setup.ts'],
     coverage: {
       provider: 'v8',
