@@ -17,6 +17,7 @@ import { calculateNetIncome } from '@/lib/engine/taxEngine';
 import { EditableSalaryInput } from './EditableSalaryInput';
 import { ToggleSwitch } from './ToggleSwitch';
 import { LabelInput } from './LabelInput';
+import { Tooltip } from './Tooltip';
 
 interface ScenarioCardProps {
   /** The scenario ID to display ('s1' or 's2'). */
@@ -130,7 +131,7 @@ export function ScenarioCard({
           aria-expanded={isExpanded}
           aria-label={isExpanded ? 'Collapse' : 'Edit'}
           className="
-            ml-2 rounded-lg px-4 py-2 text-sm font-medium
+            ml-2 min-h-[44px] min-w-[44px] rounded-lg px-4 py-2 text-sm font-medium
             transition-all duration-150
             bg-zinc-100 text-zinc-700
             hover:bg-zinc-200
@@ -148,6 +149,7 @@ export function ScenarioCard({
           data-testid="expanded-inputs"
           className="
             mt-6 space-y-5 border-t border-zinc-100 pt-6
+            transition-all duration-300
             dark:border-zinc-800
           "
         >
@@ -165,32 +167,38 @@ export function ScenarioCard({
           />
 
           <div className="space-y-3">
-            <ToggleSwitch
-              id={`${scenarioId}-super`}
-              label="Salary includes super"
-              checked={scenario.superInclusive}
-              onChange={(superInclusive) =>
-                updateScenario(scenarioId, { superInclusive })
-              }
-            />
+            <Tooltip text="Inclusive means super comes out of this salary. Exclusive means super is on top.">
+              <ToggleSwitch
+                id={`${scenarioId}-super`}
+                label="Salary includes super"
+                checked={scenario.superInclusive}
+                onChange={(superInclusive) =>
+                  updateScenario(scenarioId, { superInclusive })
+                }
+              />
+            </Tooltip>
 
-            <ToggleSwitch
-              id={`${scenarioId}-hecs`}
-              label="HECS-HELP debt"
-              checked={scenario.hasHecs}
-              onChange={(hasHecs) =>
-                updateScenario(scenarioId, { hasHecs })
-              }
-            />
+            <Tooltip text="Your student loan repayment. Calculated on repayment income above $67,000.">
+              <ToggleSwitch
+                id={`${scenarioId}-hecs`}
+                label="HECS-HELP debt"
+                checked={scenario.hasHecs}
+                onChange={(hasHecs) =>
+                  updateScenario(scenarioId, { hasHecs })
+                }
+              />
+            </Tooltip>
 
-            <ToggleSwitch
-              id={`${scenarioId}-health`}
-              label="Private health insurance"
-              checked={scenario.hasPrivateHealth}
-              onChange={(hasPrivateHealth) =>
-                updateScenario(scenarioId, { hasPrivateHealth })
-              }
-            />
+            <Tooltip text="If you have private hospital cover, you may avoid the Medicare Levy Surcharge.">
+              <ToggleSwitch
+                id={`${scenarioId}-health`}
+                label="Private health insurance"
+                checked={scenario.hasPrivateHealth}
+                onChange={(hasPrivateHealth) =>
+                  updateScenario(scenarioId, { hasPrivateHealth })
+                }
+              />
+            </Tooltip>
           </div>
 
           {/* ── Detailed breakdown (collapsed mini-table) ──────────── */}

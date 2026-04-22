@@ -105,7 +105,7 @@ Last updated: 2026-04-22
 | 2 | Zustand store, localStorage, URL compression, 2026-27 config | ✅ Complete |
 | 3 | Quick Check single-scenario UI | ✅ Complete |
 | 4 | Comparison mode (side-by-side cards, DeltaBadge, MobileTabSwitcher) | ✅ Complete |
-| 5 | Export/share, error states, polish | 🔜 Next |
+| 5 | Export/share, error states, polish, PWA | ✅ Complete |
 | 6 | E2E tests (Playwright), PWA, CI hardening | 🔜 Planned |
 
 ### ATO verification status

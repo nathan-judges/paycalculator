@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   title: "Australian Salary Calculator — Take-Home Pay Comparison",
   description:
     "Calculate your Australian take-home pay after tax, Medicare, HECS-HELP, and super. Compare salary offers across financial years.",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -30,7 +31,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+      </body>
     </html>
   );
 }
