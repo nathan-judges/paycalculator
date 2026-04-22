@@ -43,7 +43,7 @@ export function UnverifiedFYBanner() {
     <div
       role="alert"
       aria-live="polite"
-      data-testid="unverified-fy-banner"
+      data-testid="unverified-banner"
       className="
         flex items-start justify-between gap-4
         border-b border-amber-200 bg-amber-50 px-6 py-3
@@ -79,6 +79,7 @@ export function UnverifiedFYBanner() {
         type="button"
         aria-label={`Dismiss warning about ${financialYear} rates`}
         onClick={handleDismiss}
+        data-touch-target="true"
         className="
           shrink-0 rounded p-1
           text-amber-600 transition-colors

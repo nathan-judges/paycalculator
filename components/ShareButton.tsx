@@ -87,10 +87,12 @@ export function ShareButton({
       <button
         type="button"
         id="share-link-button"
+        data-testid="share-link"
+        data-touch-target="true"
         aria-label="Copy share link"
         onClick={handleCopy}
         className="
-          inline-flex items-center gap-1.5 rounded-lg
+          inline-flex min-h-[44px] min-w-[44px] items-center gap-1.5 rounded-lg
           border border-zinc-200 bg-white px-3 py-2
           text-sm font-medium text-zinc-700
           transition-all duration-150
