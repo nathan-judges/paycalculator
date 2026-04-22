@@ -106,6 +106,7 @@ export interface NetIncomeResult {
 /**
  * Calculates gross income tax liability using progressive brackets.
  * Does NOT include offsets (LITO) — those are applied separately.
+ * ATO reference: resident income tax rates (NAT 1004 schedules).
  */
 export function calculateTaxLiability(
   taxableIncome: number,
@@ -150,6 +151,7 @@ export function calculateTaxLiability(
 /**
  * Calculates the Low Income Tax Offset.
  * Returns a non-negative number (the offset reduces tax, never increases it).
+ * ATO reference: LITO thresholds published with resident tax rates.
  */
 export function calculateLITO(
   taxableIncome: number,
@@ -178,6 +180,7 @@ export function calculateLITO(
 /**
  * Calculates the Medicare levy, including low-income phase-in.
  * Assumes single taxpayer with no dependants.
+ * ATO reference: Medicare levy low-income thresholds and phase-in.
  */
 export function calculateMedicareLevy(
   taxableIncome: number,
@@ -207,6 +210,7 @@ export function calculateMedicareLevy(
 /**
  * Calculates the Medicare Levy Surcharge for singles without private hospital cover.
  * If `hasPrivateHealth` is true, MLS is zero.
+ * ATO reference: MLS tier thresholds and rates for singles.
  */
 export function calculateMLS(
   incomeForMLS: number,
@@ -237,6 +241,7 @@ export function calculateMLS(
 /**
  * Calculates HECS-HELP compulsory repayment using marginal rates (2025-26+).
  * If `hasHecs` is false, repayment is zero.
+ * ATO reference: STSL repayment thresholds (NAT 3539).
  */
 export function calculateHECS(
   repaymentIncome: number,
@@ -276,6 +281,7 @@ export function calculateHECS(
  * Calculates superannuation — handles both inclusive and exclusive treatment.
  * - Exclusive: super is on top of salary → taxable income = salary
  * - Inclusive: super is part of salary → taxable income = salary / (1 + superRate)
+ * ATO reference: Super guarantee rate per financial year.
  */
 export function calculateSuper(
   salary: number,
@@ -298,6 +304,7 @@ export function calculateSuper(
 /**
  * Orchestrator: calculates the complete net income breakdown for a single scenario.
  * Calls all other functions and assembles the final result.
+ * ATO reference: combines NAT 1004 and NAT 3539 logic with Medicare/MLS rules.
  */
 export function calculateNetIncome(
   scenario: Scenario,

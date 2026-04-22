@@ -1,0 +1,65 @@
+name: ATO Monitor
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm i cheerio
+
+      - name: Compute current hash
+        id: hash
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
+          const crypto = require('crypto');
+          const cheerio = require('cheerio');
+
+          const url = 'https://softwaredevelopers.ato.gov.au/tax-tables';
+          async function main() {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
+            const html = await res.text();
+            const $ = cheerio.load(html);
+            $('script, style').remove();
+            $('.banner, .cookie, [data-dynamic]').remove();
+            const text = $('main, table').text().replace(/\s+/g, ' ').trim();
+            const hash = crypto.createHash('sha256').update(text).digest('hex');
+            fs.writeFileSync('current-hash.txt', hash + '\n');
+            console.log(hash);
+          }
+          main().catch((err) => {
+            console.error(err);
+            process.exit(1);
+          });
+          EOF
+
+      - name: Compare hash and open issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          CURRENT_HASH="$(cat current-hash.txt | tr -d '\n')"
+          STORED_HASH="$(cat .ato-page-hash | tr -d '\n')"
+          if [ "$CURRENT_HASH" = "$STORED_HASH" ]; then
+            echo "No ATO page change detected."
+            exit 0
+          fi
+
+          gh issue create \
+            --title "ATO tax tables page changed" \
+            --label "tax-update-needed" \
+            --body "The monitored ATO tax tables content hash changed.\n\nStored: $STORED_HASH\nCurrent: $CURRENT_HASH\n\nReview MAINTENANCE.md and update fixtures if needed."

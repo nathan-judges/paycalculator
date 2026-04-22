@@ -19,6 +19,8 @@ import { StickyFooter } from '@/components/StickyFooter';
 import { ExportButton } from '@/components/ExportButton';
 import { ShareButton } from '@/components/ShareButton';
 import { UnverifiedFYBanner } from '@/components/UnverifiedFYBanner';
+import { UserSurvey } from '@/components/UserSurvey';
+import { DevMetricsExportButton } from '@/components/DevMetricsExportButton';
 
 export function QuickCheckClient() {
   const scenarios = useComparisonStore((s) => s.scenarios);
@@ -79,6 +81,8 @@ export function QuickCheckClient() {
           <button
             type="button"
             id="compare-button"
+            data-testid="compare-cta"
+            data-touch-target="true"
             onClick={() => duplicateScenario('s1')}
             className="
               group flex w-full items-center justify-center gap-2
@@ -96,6 +100,9 @@ export function QuickCheckClient() {
             </span>
           </button>
         )}
+
+        <UserSurvey />
+        <DevMetricsExportButton />
       </main>
 
       {/* Sticky footer */}

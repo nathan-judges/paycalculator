@@ -60,10 +60,10 @@ export function StickyFooter() {
         </span>
         <span
           data-testid="footer-net-pay"
-          className="text-lg font-bold text-emerald-600 dark:text-emerald-400"
+          className="text-lg font-bold text-emerald-700 dark:text-emerald-300"
         >
           {formatCurrency(netPay)}
-          <span className="ml-1 text-sm font-normal text-zinc-400 dark:text-zinc-500">
+          <span className="ml-1 text-sm font-normal text-zinc-600 dark:text-zinc-400">
             {frequencyLabel(displayFrequency)}
           </span>
         </span>

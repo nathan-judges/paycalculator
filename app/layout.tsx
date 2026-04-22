@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { SentryInit } from "@/components/SentryInit";
+import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 
 const geistSans = localFont({
   src: "../public/fonts/geist-latin.woff2",
@@ -32,6 +34,8 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <SentryInit />
+        <ServiceWorkerRegister />
         {children}
       </body>
     </html>

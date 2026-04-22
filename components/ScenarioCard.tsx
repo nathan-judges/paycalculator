@@ -111,15 +111,15 @@ export function ScenarioCard({
         </div>
 
         <div className="text-right shrink-0">
-          <p className="text-xs font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+          <p className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
             Take-home
           </p>
           <p
             data-testid="net-pay"
-            className="mt-1 text-xl font-bold text-emerald-600 dark:text-emerald-400"
+            className="mt-1 text-xl font-bold text-emerald-700 dark:text-emerald-300"
           >
             {formatCurrency(netPay)}
-            <span className="ml-1 text-sm font-normal text-zinc-400 dark:text-zinc-500">
+            <span className="ml-1 text-sm font-normal text-zinc-600 dark:text-zinc-400">
               {frequencySuffix(displayFrequency)}
             </span>
           </p>
@@ -167,7 +167,10 @@ export function ScenarioCard({
           />
 
           <div className="space-y-3">
-            <Tooltip text="Inclusive means super comes out of this salary. Exclusive means super is on top.">
+            <Tooltip
+              triggerTestId="tooltip-trigger-super"
+              text="Inclusive means super comes out of this salary. Exclusive means super is on top."
+            >
               <ToggleSwitch
                 id={`${scenarioId}-super`}
                 label="Salary includes super"
@@ -178,7 +181,10 @@ export function ScenarioCard({
               />
             </Tooltip>
 
-            <Tooltip text="Your student loan repayment. Calculated on repayment income above $67,000.">
+            <Tooltip
+              triggerTestId="tooltip-trigger-hecs"
+              text="Your student loan repayment. Calculated on repayment income above $67,000."
+            >
               <ToggleSwitch
                 id={`${scenarioId}-hecs`}
                 label="HECS-HELP debt"
@@ -189,7 +195,10 @@ export function ScenarioCard({
               />
             </Tooltip>
 
-            <Tooltip text="If you have private hospital cover, you may avoid the Medicare Levy Surcharge.">
+            <Tooltip
+              triggerTestId="tooltip-trigger-health"
+              text="If you have private hospital cover, you may avoid the Medicare Levy Surcharge."
+            >
               <ToggleSwitch
                 id={`${scenarioId}-health`}
                 label="Private health insurance"
@@ -204,7 +213,7 @@ export function ScenarioCard({
           {/* ── Detailed breakdown (collapsed mini-table) ──────────── */}
           {netIncomeResult && (
             <div className="rounded-lg bg-zinc-50 p-4 dark:bg-zinc-800/50">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
                 Breakdown (annual)
               </p>
               <dl className="space-y-1 text-sm">
@@ -249,8 +258,8 @@ export function ScenarioCard({
                   </dd>
                 </div>
                 <div className="flex justify-between border-t border-zinc-200 pt-1 dark:border-zinc-700">
-                  <dt className="font-semibold text-emerald-600 dark:text-emerald-400">Net take-home</dt>
-                  <dd className="font-bold text-emerald-600 dark:text-emerald-400">
+                  <dt className="font-semibold text-emerald-700 dark:text-emerald-300">Net take-home</dt>
+                  <dd className="font-bold text-emerald-700 dark:text-emerald-300">
                     {formatCurrency(netIncomeResult.netAnnualIncome)}
                   </dd>
                 </div>

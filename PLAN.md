@@ -9,7 +9,7 @@
 | 3 | Quick Check single-scenario UI (all 9 components + tests) | `feature/ui-quick-check` | ✅ Complete — merged to main |
 | 4 | Comparison mode — side-by-side ScenarioCards, DeltaBadge, MobileTabSwitcher | `feature/comparison-mode` | ✅ Complete — merged to main |
 | 5 | Export/share, error states, visual polish, PWA | `feature/week5-polish` | ✅ Complete — ready for PR |
-| 6 | E2E tests (Playwright), PWA manifest + service worker, CI hardening | `feature/week-6-ci-e2e` | 🔜 Planned |
+| 6 | Production readiness, testing, and maintenance automation | `feature/week6-production` | ✅ Complete (current branch) |
 
 ---
 
@@ -29,11 +29,19 @@
 
 ## Week 6 Scope
 
-- [ ] Playwright E2E scaffold (`tests/e2e/`) — at minimum one smoke test
-- [ ] CI: GitHub Actions workflow to run `npm test` + `npm run build` on every PR
-- [ ] CI: Weekly hash-check of ATO tax tables page (alert on change)
-- [ ] ATO XLSX parse script (`tests/scripts/parse-ato-fixtures.ts`)
-- [ ] `tests/fixtures/sources/checksums.sha256` after sourcing NAT 1004 / NAT 3539
+- [x] Playwright E2E scaffold (`tests/e2e/`) with responsive, touch target, a11y, PWA, and visual coverage
+- [x] CI workflow to run unit tests, E2E, a11y, and build
+- [x] Weekly ATO hash-check workflow (issue created on change)
+- [x] ATO XLSX parse script (`tests/scripts/parse-ato-fixtures.ts`)
+- [x] Fixture checksum map (`tests/fixtures/sources/.checksums.json`)
+
+---
+
+## Future enhancements
+
+- Add first-party analytics ingestion endpoint for aggregated privacy-safe metrics
+- Expand schema migration framework when `AppStateSchema.version` changes
+- Add physical-device PWA install checks for iOS and Android before major releases
 
 ---
 

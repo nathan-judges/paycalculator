@@ -9,9 +9,14 @@
     "lint": "eslint",
     "test": "vitest --run",
     "test:watch": "vitest",
-    "test:coverage": "vitest --run --coverage"
+    "test:coverage": "vitest --run --coverage",
+    "test:e2e": "playwright test --project=chromium",
+    "test:a11y": "playwright test tests/e2e/a11y.spec.ts --project=chromium",
+    "test:e2e:full": "CI_NIGHTLY=1 playwright test",
+    "parse-fixtures": "tsx tests/scripts/parse-ato-fixtures.ts"
   },
   "dependencies": {
+    "@sentry/nextjs": "^10.49.0",
     "lz-string": "^1.5.0",
     "next": "16.2.4",
     "react": "19.2.4",
@@ -20,6 +25,8 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.2",
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -29,12 +36,15 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitest/coverage-v8": "^4.1.5",
+    "cheerio": "^1.2.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "jsdom": "^29.0.2",
     "next-pwa": "^5.6.0",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5",
-    "vitest": "^4.1.5"
+    "vitest": "^4.1.5",
+    "xlsx": "^0.18.5"
   }
 }
