@@ -100,7 +100,7 @@ export interface NetIncomeResult {
 }
 
 // ---------------------------------------------------------------------------
-// Calculation functions — signatures only
+// Calculation functions
 // ---------------------------------------------------------------------------
 
 /**
@@ -111,7 +111,40 @@ export function calculateTaxLiability(
   taxableIncome: number,
   config: TaxConfig,
 ): TaxLiabilityResult {
-  throw new Error('Not yet implemented');
+  const income = Math.max(0, taxableIncome);
+  const perBracket: TaxLiabilityResult['perBracket'] = [];
+  let grossTax = 0;
+
+  for (const bracket of config.incomeTaxBrackets) {
+    if (income < bracket.min) {
+      // Income doesn't reach this bracket
+      perBracket.push({
+        min: bracket.min,
+        max: bracket.max,
+        rate: bracket.rate,
+        taxable: 0,
+        tax: 0,
+      });
+      continue;
+    }
+
+    // How much of the income falls within this bracket
+    const bracketMax = Math.min(income, bracket.max);
+    const taxable = bracketMax - bracket.min + 1;
+    const tax = taxable * bracket.rate;
+
+    perBracket.push({
+      min: bracket.min,
+      max: bracket.max,
+      rate: bracket.rate,
+      taxable,
+      tax,
+    });
+
+    grossTax += tax;
+  }
+
+  return { grossTax, perBracket };
 }
 
 /**
@@ -122,7 +155,24 @@ export function calculateLITO(
   taxableIncome: number,
   config: TaxConfig,
 ): number {
-  throw new Error('Not yet implemented');
+  const { lito } = config;
+
+  // Below or at the full offset threshold — return maximum
+  if (taxableIncome <= lito.fullOffsetThreshold) {
+    return lito.maxOffset;
+  }
+
+  // Walk through the phase-out stages
+  for (const stage of lito.phaseOut) {
+    if (taxableIncome >= stage.startIncome && taxableIncome <= stage.endIncome) {
+      const excess = taxableIncome - stage.startIncome + 1;
+      const reduction = excess * stage.reductionRate;
+      return Math.max(0, stage.offsetAtStart - reduction);
+    }
+  }
+
+  // Above all phase-out stages — offset is nil
+  return 0;
 }
 
 /**
@@ -133,7 +183,25 @@ export function calculateMedicareLevy(
   taxableIncome: number,
   config: TaxConfig,
 ): MedicareLevyResult {
-  throw new Error('Not yet implemented');
+  const { medicare } = config;
+
+  // Below or at the low-income threshold — fully exempt
+  if (taxableIncome <= medicare.lowIncomeThreshold) {
+    return { levy: 0, isExempt: true, isReduced: false };
+  }
+
+  // Phase-in range: levy = (income - threshold) × phaseInRate
+  // But capped at the full levy amount
+  const fullLevy = taxableIncome * medicare.levyRate;
+  const phaseInLevy =
+    (taxableIncome - medicare.lowIncomeThreshold) * medicare.phaseInRate;
+
+  if (phaseInLevy < fullLevy) {
+    return { levy: phaseInLevy, isExempt: false, isReduced: true };
+  }
+
+  // Full levy applies
+  return { levy: fullLevy, isExempt: false, isReduced: false };
 }
 
 /**
@@ -145,7 +213,25 @@ export function calculateMLS(
   hasPrivateHealth: boolean,
   config: TaxConfig,
 ): MLSResult {
-  throw new Error('Not yet implemented');
+  if (hasPrivateHealth) {
+    return { surcharge: 0, rate: 0, tier: null };
+  }
+
+  const tierNames = [null, 'Tier 1', 'Tier 2', 'Tier 3'];
+
+  for (let i = 0; i < config.mlsTiers.length; i++) {
+    const tier = config.mlsTiers[i];
+    if (incomeForMLS >= tier.min && incomeForMLS <= tier.max) {
+      const surcharge = incomeForMLS * tier.rate;
+      return {
+        surcharge,
+        rate: tier.rate,
+        tier: tier.rate === 0 ? null : tierNames[i] ?? `Tier ${i}`,
+      };
+    }
+  }
+
+  return { surcharge: 0, rate: 0, tier: null };
 }
 
 /**
@@ -157,7 +243,33 @@ export function calculateHECS(
   hasHecs: boolean,
   config: TaxConfig,
 ): HECSResult {
-  throw new Error('Not yet implemented');
+  if (!hasHecs) {
+    return { repayment: 0, effectiveRate: 0 };
+  }
+
+  for (const threshold of config.hecsThresholds) {
+    if (repaymentIncome >= threshold.min && repaymentIncome <= threshold.max) {
+      if (threshold.rate === 0) {
+        return { repayment: 0, effectiveRate: 0 };
+      }
+
+      let repayment: number;
+
+      if (threshold.isFlatPercentage) {
+        // Flat percentage of total repayment income
+        repayment = repaymentIncome * threshold.rate;
+      } else {
+        // Marginal: base amount + rate × (income − tier minimum + 1)
+        const excess = repaymentIncome - threshold.min + 1;
+        repayment = threshold.baseAmount + excess * threshold.rate;
+      }
+
+      const effectiveRate = repaymentIncome > 0 ? repayment / repaymentIncome : 0;
+      return { repayment, effectiveRate };
+    }
+  }
+
+  return { repayment: 0, effectiveRate: 0 };
 }
 
 /**
@@ -170,7 +282,17 @@ export function calculateSuper(
   superRate: number,
   inclusive: boolean,
 ): SuperResult {
-  throw new Error('Not yet implemented');
+  if (inclusive) {
+    // Super is part of the package — extract it
+    const baseSalary = salary;
+    const taxableIncome = Math.round((salary / (1 + superRate)) * 100) / 100;
+    const superAmount = Math.round((salary - taxableIncome) * 100) / 100;
+    return { superAmount, baseSalary, taxableIncome };
+  }
+
+  // Super is on top — salary is the taxable income
+  const superAmount = Math.round(salary * superRate * 100) / 100;
+  return { superAmount, baseSalary: salary, taxableIncome: salary };
 }
 
 /**
@@ -181,5 +303,63 @@ export function calculateNetIncome(
   scenario: Scenario,
   config: TaxConfig,
 ): NetIncomeResult {
-  throw new Error('Not yet implemented');
+  // 1. Calculate super and determine taxable income
+  const superResult = calculateSuper(
+    scenario.salary,
+    config.superRate,
+    scenario.superInclusive,
+  );
+
+  const taxableIncome = superResult.taxableIncome;
+
+  // 2. Calculate income tax liability (before offsets)
+  const taxLiability = calculateTaxLiability(taxableIncome, config);
+
+  // 3. Calculate LITO
+  const litoOffset = calculateLITO(taxableIncome, config);
+
+  // 4. Tax after offsets (cannot be negative)
+  const taxAfterOffsets = Math.max(0, taxLiability.grossTax - litoOffset);
+
+  // 5. Medicare levy
+  const medicareLevy = calculateMedicareLevy(taxableIncome, config);
+
+  // 6. Medicare Levy Surcharge
+  const mls = calculateMLS(taxableIncome, scenario.hasPrivateHealth, config);
+
+  // 7. HECS-HELP repayment
+  const hecs = calculateHECS(taxableIncome, scenario.hasHecs, config);
+
+  // 8. Total deductions
+  const totalDeductions =
+    taxAfterOffsets +
+    medicareLevy.levy +
+    mls.surcharge +
+    hecs.repayment;
+
+  // 9. Net annual income
+  const netAnnualIncome = taxableIncome - totalDeductions;
+
+  // 10. Frequency breakdowns
+  const netPerFrequency = {
+    weekly: Math.round((netAnnualIncome / 52) * 100) / 100,
+    fortnightly: Math.round((netAnnualIncome / 26) * 100) / 100,
+    monthly: Math.round((netAnnualIncome / 12) * 100) / 100,
+    annual: Math.round(netAnnualIncome * 100) / 100,
+  };
+
+  return {
+    grossSalary: scenario.salary,
+    taxableIncome,
+    super: superResult,
+    taxLiability,
+    litoOffset,
+    taxAfterOffsets,
+    medicareLevy,
+    mls,
+    hecs,
+    totalDeductions,
+    netAnnualIncome,
+    netPerFrequency,
+  };
 }

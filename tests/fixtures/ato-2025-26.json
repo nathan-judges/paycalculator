@@ -1,0 +1,69 @@
+{
+  "_meta": {
+    "financialYear": "2025-26",
+    "source": "Manually verified against ATO-published rates — see tests/boundary-verification.md",
+    "verifiedDate": "2026-04-22"
+  },
+  "taxLiability": [
+    { "income": 0, "expectedTax": 0.00 },
+    { "income": 18200, "expectedTax": 0.00 },
+    { "income": 18201, "expectedTax": 0.16 },
+    { "income": 30000, "expectedTax": 1888.00 },
+    { "income": 45000, "expectedTax": 4288.00 },
+    { "income": 45001, "expectedTax": 4288.30 },
+    { "income": 90000, "expectedTax": 17788.00 },
+    { "income": 135000, "expectedTax": 31288.00 },
+    { "income": 135001, "expectedTax": 31288.37 },
+    { "income": 190000, "expectedTax": 51638.00 },
+    { "income": 190001, "expectedTax": 51638.45 },
+    { "income": 300000, "expectedTax": 101138.00 }
+  ],
+  "lito": [
+    { "income": 0, "expectedOffset": 700.00 },
+    { "income": 37500, "expectedOffset": 700.00 },
+    { "income": 37501, "expectedOffset": 699.95 },
+    { "income": 40000, "expectedOffset": 575.00 },
+    { "income": 45000, "expectedOffset": 325.00 },
+    { "income": 45001, "expectedOffset": 324.985 },
+    { "income": 55000, "expectedOffset": 175.00 },
+    { "income": 66667, "expectedOffset": 0.00 },
+    { "income": 100000, "expectedOffset": 0.00 }
+  ],
+  "medicareLevy": [
+    { "income": 0, "expectedLevy": 0.00, "isExempt": true, "isReduced": false },
+    { "income": 27222, "expectedLevy": 0.00, "isExempt": true, "isReduced": false },
+    { "income": 27223, "expectedLevy": 0.10, "isExempt": false, "isReduced": true },
+    { "income": 30000, "expectedLevy": 277.80, "isExempt": false, "isReduced": true },
+    { "income": 34027, "expectedLevy": 680.50, "isExempt": false, "isReduced": true },
+    { "income": 50000, "expectedLevy": 1000.00, "isExempt": false, "isReduced": false },
+    { "income": 90000, "expectedLevy": 1800.00, "isExempt": false, "isReduced": false }
+  ],
+  "mls": [
+    { "income": 101000, "hasPrivateHealth": false, "expectedSurcharge": 0.00, "expectedRate": 0 },
+    { "income": 101001, "hasPrivateHealth": false, "expectedSurcharge": 1010.01, "expectedRate": 0.01 },
+    { "income": 118000, "hasPrivateHealth": false, "expectedSurcharge": 1180.00, "expectedRate": 0.01 },
+    { "income": 118001, "hasPrivateHealth": false, "expectedSurcharge": 1475.01, "expectedRate": 0.0125 },
+    { "income": 158000, "hasPrivateHealth": false, "expectedSurcharge": 1975.00, "expectedRate": 0.0125 },
+    { "income": 158001, "hasPrivateHealth": false, "expectedSurcharge": 2370.015, "expectedRate": 0.015 },
+    { "income": 200000, "hasPrivateHealth": false, "expectedSurcharge": 3000.00, "expectedRate": 0.015 },
+    { "income": 200000, "hasPrivateHealth": true, "expectedSurcharge": 0.00, "expectedRate": 0 }
+  ],
+  "hecs": [
+    { "income": 0, "expectedRepayment": 0.00 },
+    { "income": 67000, "expectedRepayment": 0.00 },
+    { "income": 67001, "expectedRepayment": 0.15 },
+    { "income": 90000, "expectedRepayment": 3450.00 },
+    { "income": 125000, "expectedRepayment": 8700.00 },
+    { "income": 125001, "expectedRepayment": 8700.17 },
+    { "income": 150000, "expectedRepayment": 12950.00 },
+    { "income": 179285, "expectedRepayment": 17928.45 },
+    { "income": 179286, "expectedRepayment": 17928.60 },
+    { "income": 200000, "expectedRepayment": 20000.00 },
+    { "income": 300000, "expectedRepayment": 30000.00 }
+  ],
+  "super": [
+    { "salary": 90000, "inclusive": false, "expectedSuper": 10800.00, "expectedTaxableIncome": 90000.00 },
+    { "salary": 100000, "inclusive": true, "expectedSuper": 10714.29, "expectedTaxableIncome": 89285.71 },
+    { "salary": 0, "inclusive": false, "expectedSuper": 0.00, "expectedTaxableIncome": 0.00 }
+  ]
+}
