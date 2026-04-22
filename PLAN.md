@@ -10,6 +10,7 @@
 | 4 | Comparison mode — side-by-side ScenarioCards, DeltaBadge, MobileTabSwitcher | `feature/comparison-mode` | ✅ Complete — merged to main |
 | 5 | Export/share, error states, visual polish, PWA | `feature/week5-polish` | ✅ Complete — ready for PR |
 | 6 | Production readiness, testing, and maintenance automation | `feature/week6-production` | ✅ Complete (current branch) |
+| 7 | Initial UX refinement (inline salary input, onboarding tooltip, compare gating) | `feat/improve-initial-ux` | ✅ Complete — ready for PR |
 
 ---
 
@@ -42,6 +43,7 @@
 - Add first-party analytics ingestion endpoint for aggregated privacy-safe metrics
 - Expand schema migration framework when `AppStateSchema.version` changes
 - Add physical-device PWA install checks for iOS and Android before major releases
+- Run a first-click benchmark round to measure discoverability uplift against the old Edit-first interaction
 
 ---
 
@@ -65,3 +67,6 @@ Comparing two scenarios under different tax years would produce a misleading del
 
 ### Why Zod for URL parsing?
 `window.location.search` is user-controlled input. Zod safeParse ensures any tampered or stale URL state is discarded gracefully rather than crashing the store.
+
+### Why not `type="number"` for salary?
+Number inputs have inconsistent mobile UX and browser-specific controls. A text input with numeric keyboard hints (`inputMode`/`pattern`) gives better formatting control, accessibility, and sanitisation consistency.

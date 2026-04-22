@@ -30,27 +30,36 @@ const BASE_STATE = {
 };
 
 beforeEach(() => {
+  localStorage.clear();
   act(() => {
     useComparisonStore.setState(BASE_STATE);
   });
 });
 
 describe('QuickCheckClient', () => {
-  it('renders the "Compare with another offer" button when only one scenario exists', () => {
+  it('renders the "Compare with another offer" button disabled when only one scenario exists', () => {
     render(<QuickCheckClient />);
 
-    expect(
-      screen.getByRole('button', { name: /compare with another offer/i }),
-    ).toBeInTheDocument();
+    const compareButton = screen.getByRole('button', {
+      name: /compare with another offer/i,
+    });
+    expect(compareButton).toBeInTheDocument();
+    expect(compareButton).toBeDisabled();
   });
 
-  it('clicking the compare button adds a second scenario to the store', async () => {
+  it('enables compare after salary interaction, then adds a second scenario', async () => {
     const user = userEvent.setup();
     render(<QuickCheckClient />);
 
-    await user.click(
-      screen.getByRole('button', { name: /compare with another offer/i }),
-    );
+    const salaryInput = screen.getByRole('textbox', { name: /annual salary/i });
+    await user.clear(salaryInput);
+    await user.type(salaryInput, '95000');
+
+    const compareButton = screen.getByRole('button', {
+      name: /compare with another offer/i,
+    });
+    expect(compareButton).toBeEnabled();
+    await user.click(compareButton);
 
     const state = useComparisonStore.getState();
     expect(state.scenarios).toHaveLength(2);
@@ -60,6 +69,10 @@ describe('QuickCheckClient', () => {
   it('hides the compare button once two scenarios exist', async () => {
     const user = userEvent.setup();
     render(<QuickCheckClient />);
+
+    const salaryInput = screen.getByRole('textbox', { name: /annual salary/i });
+    await user.clear(salaryInput);
+    await user.type(salaryInput, '91000');
 
     await user.click(
       screen.getByRole('button', { name: /compare with another offer/i }),
@@ -75,8 +88,13 @@ describe('QuickCheckClient', () => {
     expect(screen.getByTestId('comparison-grid')).toBeInTheDocument();
   });
 
-  it('renders the sticky footer', () => {
+  it('does not render the sticky footer in single-scenario mode', () => {
     render(<QuickCheckClient />);
-    expect(screen.getByTestId('sticky-footer')).toBeInTheDocument();
+    expect(screen.queryByTestId('sticky-footer')).not.toBeInTheDocument();
+  });
+
+  it('shows onboarding tooltip on first visit', () => {
+    render(<QuickCheckClient />);
+    expect(screen.getByRole('tooltip')).toBeInTheDocument();
   });
 });
